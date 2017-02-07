@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head><title>AngularJS inline template</title></head>
+	<body>
+		<h2>Description</h2>
+		<p>This page is a test to show how to use AngularJS 
+			with <strong>inlined templates</strong> in the source code.
+			It even uses directives inside templated directives
+			just to show how declarative way works.
+		</p>
+
+		<script>
+		var data = {count: 1};
+		</script>
+
+		<!-- template -->
+		<script type="text/ng-template" id="template.html">
+		My {{data.name}} template <br>
+		count: {{data.count}}		
+		  <button class="increment-button">+1</button>
+		  <br>
+		<input ng-model="data.name" type="text" placeholder="write something here...">
+		<hr>
+		</script>
+
+		<h2>Angular</h2>
+		<div class="angular-template">--template here--</div>
+		<div class="angular-template">--template here--</div>
+		<div class="angular-template">--template here--</div>
+
+		<!-- Angular implementation -->
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular.min.js"></script>
+	    <script>
+	       angular.element(document).ready(function() {
+	         angular.module('myApp', []).
+	         directive('angularTemplate', function () {
+	         	return {
+	         		restrict: 'C',
+	         		templateUrl: 'template.html',
+	         		link: function (scope, element, attr) {
+	         			scope.data = data;
+	         		},
+	         	};
+	         }).
+	         directive('incrementButton', function () {
+	         	return {
+	         		restrict: 'C',
+	         		link: function (scope, element, attr) {
+	         			element.bind('click', function () {
+	         				data.count = data.count + 1;
+	         				scope.$apply(); // not required if ngClick
+	         			})
+	         		},
+	         	};
+	         });
+	         angular.bootstrap(document, ['myApp']);
+	       });
+	    </script>
+	</body>
+</html>

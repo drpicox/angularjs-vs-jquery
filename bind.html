@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head><title>AngularJS vs JQuery</title></head>
+	<body>
+		<h2>Description</h2>
+		<p>This page is a test to show how AngularJS can be used like jQuery 
+			by injecting directives by class like a jQuery selector, 
+			<strong>just binding data</strong>.
+		</p>
+
+		<script>
+		var data = 'this is the data';
+		</script>
+
+		<h2>jQuery</h2>
+		<div class="jquery-data">--here data--</div>
+
+		<h2>Angular</h2>
+		<div class="angular-data">{{data}}</div>
+
+		<!-- jQuery implementation -->
+		<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+		<script>
+		$(function () {			
+			$('.jquery-data').text(data);
+		});
+		</script>
+
+		<!-- Angular implementation -->
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular.min.js"></script>
+	    <script>
+	       angular.element(document).ready(function() {
+	         angular.module('myApp', []).
+	         directive('angularData', function () {
+	         	return {
+	         		restrict: 'C',
+	         		link: function (scope, element, attr) {
+	         			scope.data = data;
+	         		},
+	         	};
+	         });
+	         angular.bootstrap(document, ['myApp']);
+	       });
+	    </script>
+	</body>
+</html>
